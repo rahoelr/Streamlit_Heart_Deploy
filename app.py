@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import os
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
@@ -88,10 +89,11 @@ if submit_button:
             input_data[column] = le.fit_transform(input_data[column])
 
     # Scale the input data
-    input_data = scaler.transform(input_data)
+    input_data_scaled = scaler.transform(input_data)
+    input_data_scaled = pd.DataFrame(input_data_scaled, columns=input_data.columns)  # Convert back to DataFrame
 
     # Predict using the model
-    prediction = model.predict(input_data)[0]
+    prediction = model.predict(input_data_scaled)[0]
 
     # Save the prediction
     def save_prediction(data, prediction):
